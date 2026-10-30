@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/logo192.png" />
+
+    <!-- জুম বন্ধ এবং মোবাইল ফিট করার মূল মেটা ট্যাগ -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <meta name="theme-color" content="#020617" />
+    <meta name="description" content="Order fresh groceries and essentials with Kacha Bazaar!" />
+
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+    <title>Kacha Bazaar</title>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+
+<body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+
+    <!-- Firebase App এবং Messaging SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-messaging-compat.js"></script>
+
+    <script>
+        // সঠিক ফায়ারবেস কনফিগ
+        const firebaseConfig = {
+            apiKey: process.env.REACT_APP_FIREBASE_API_KEY || "AIzaSy...",
+            authDomain: "kachabazaar-app.firebaseapp.com",
+            projectId: "kachabazaar-app",
+            storageBucket: "kachabazaar-app.firebasestorage.app",
+            messagingSenderId: "642246363002",
+            appId: "1:642246363002:web:8ae296cb0131a28c7ff8c3"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const messaging = firebase.messaging();
+
+        function requestNotificationPermission() {
+            Notification.requestPermission().then((permission) => {
+                if (permission === 'granted') {
+                    messaging.getToken({ vapidKey: 'YOUR_GENERATED_VAPID_KEY' })
+                        .then((currentToken) => {
+                            if (currentToken) {
+                                console.log('FCM Token:', currentToken);
+                            }
+                        }).catch((err) => {
+                            console.log('Error getting token: ', err);
+                        });
+                }
+            });
+        }
+
+        window.onload = function () {
+            requestNotificationPermission();
+        };
+
+        messaging.onMessage((payload) => {
+            alert(`${payload.notification.title}: ${payload.notification.body}`);
+        });
+    </script>
+</body>
+
+</html>

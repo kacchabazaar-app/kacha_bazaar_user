@@ -1,0 +1,17 @@
+{
+  "appId": "com.kachabazaar.app",
+  "appName": "Kacha Bazaar",
+  "webDir": "build",
+  "bundledWebRuntime": false,
+  "server": {
+    "url": "https://kacha-bazaary-indol.vercel.app",
+    "cleartext": true,
+    "androidScheme": "https",
+    "allowNavigation": [
+      "kacha-bazaary-indol.vercel.app",
+      "*.vercel.app",
+      "*.razorpay.com",
+      "upi://*"
+    ]
+  }
+}

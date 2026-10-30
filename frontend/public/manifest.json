@@ -1,0 +1,48 @@
+{
+  "id": "https://kacha-bazaar-indol.vercel.app/",
+  "short_name": "Kacha Bazaar",
+  "name": "Kacha Bazaar - groceries order",
+  "description": "Kacha Bazaar is a groceries delivery Platform",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#020617",
+  "background_color": "#020617",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/logoo 192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/logo512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Kacha Bazaar App Preview"
+    },
+    {
+      "src": "/logo512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Kacha Bazaar Desktop Preview"
+    }
+  ],
+  "categories": ["finance", "productivity"]
+}
