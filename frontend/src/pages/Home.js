@@ -106,7 +106,7 @@ export default function App() {
             </button>
           </div>
 
-          {/* Search Bar */}
+          {/* Search   Bar */}
           <div className="mt-3 relative">
             <input 
               type="text" 
