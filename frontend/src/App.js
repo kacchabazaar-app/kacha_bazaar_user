@@ -9,54 +9,22 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Toaster } from "react-hot-toast";
 
+// 🟢 কাচ্চা বাজার (Kacha Bazaar) পেজ ইম্পোর্টসমূহ
+import Home from "./pages/Home";
+import Category from "./pages/Category";
+import Cart from "./pages/Cart";
+import Orders from "./pages/Orders";
+import Help from "./pages/Help";
+import Profile from "./pages/Profile";
+
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import Home from "./pages/Home";
-import Wallet from "./pages/Wallet";
-import Refer from "./pages/Refer";
-import SaveMoney from "./pages/SaveMoney";
-import InvestHistory from "./pages/InvestHistory";
-import KYC from "./pages/KYC";
-import Notifications from "./pages/Notifications";
 import ForgotPassword from "./pages/ForgotPassword";
-import UserAnalytics from "./pages/UserAnalytics";
-import MyInvestment from "./pages/MyInvestment";
-
-import AdminKYC from "./pages/AdminKYC";
-import AdminNotification from "./pages/AdminNotification";
-import AdminDashboard from "./pages/AdminDashboard";
-import AdminAddon from "./pages/AdminAddon";
-
-import PerformanceBonus from "./pages/PerformanceBonus";
-import TeamBonus from "./pages/TeamBonus";
-import RoyaltyBonus from "./pages/RoyaltyBonus";
-import BonusHistory from "./pages/BonusHistory";
+import Notifications from "./pages/Notifications";
 
 import ProtectedRoute from "./components/ProtectedRoute";
-import AdminRoute from "./components/AdminRoute";
-import Leaderboard from "./pages/Leaderboard";
 
-import DailyReward from "./pages/DailyReward";
-import InvestmentAssistant from "./pages/InvestmentAssistant";
-
-import Support from "./pages/Support";
-import AdminSupport from "./pages/AdminSupport";
-import ReferralTree from "./pages/ReferralTree";
-import LegalPages from "./pages/LegalPages";
-import AdvancedAdminAnalytics from "./pages/AdvancedAdminAnalytics";
-import AdminUserControl from "./pages/AdminUserControl";
-import AdminOneTime from "./pages/AdminOneTime";
-import AboutCompany from "./pages/AboutCompany";
-
-import InvestNow from "./pages/InvestNow";
-import OneTime from "./pages/OneTime";
-
-import BankDetails from "./pages/BankDetails";
-import Withdraw from "./pages/Withdraw";
-import EcommerceHome from "./pages/EcommerceHome";
-
-
-// 🟢 ব্যাক বাটন হ্যান্ডলার সাব-কম্পোনেন্ট
+// 🟢 মোবাইল ব্যাক বাটন হ্যান্ডলার
 function BackButtonHandler() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -90,101 +58,6 @@ function BackButtonHandler() {
   return null;
 }
 
-// 🟢 গ্লোবাল বটম নেভিয়েশন বার কম্পোনেন্ট (সাদা ফাঁকা অংশ দূর করার জন্য ব্যাকগ্রাউন্ড ও স্টাইল ফিক্সড)
-function GlobalBottomNav() {
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  const hideNavPaths = ["/login", "/register", "/forgot-password", "/admin"];
-  const shouldShowNav = !hideNavPaths.includes(location.pathname) && !location.pathname.startsWith("/admin");
-
-  if (!shouldShowNav) return null;
-
-  return (
-    <nav style={{
-      position: "fixed",
-      bottom: 0,
-      left: 0,
-      right: 0,
-      height: "58px",
-      background: "#020817",
-      display: "grid",
-      gridTemplateColumns: "repeat(4, 1fr)",
-      borderTop: "1px solid #1e40af",
-      zIndex: 99999,
-      boxSizing: "border-box"
-    }}>
-      <button
-        style={{
-          border: "none",
-          background: location.pathname === "/home" || location.pathname === "/" ? "#0f2a5c" : "transparent",
-          color: location.pathname === "/home" || location.pathname === "/" ? "white" : "#94a3b8",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          cursor: "pointer"
-        }}
-        onClick={() => navigate("/home")}
-      >
-        <span style={{ fontSize: "18px" }}>🏠</span>
-        <span style={{ fontSize: "10px", marginTop: "2px", fontWeight: "600" }}>Home</span>
-      </button>
-
-      <button
-        style={{
-          border: "none",
-          background: location.pathname === "/wallet" ? "#0f2a5c" : "transparent",
-          color: location.pathname === "/wallet" ? "white" : "#94a3b8",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          cursor: "pointer"
-        }}
-        onClick={() => navigate("/wallet")}
-      >
-        <span style={{ fontSize: "18px" }}>👛</span>
-        <span style={{ fontSize: "10px", marginTop: "2px", fontWeight: "600" }}>Wallet</span>
-      </button>
-
-      <button
-        style={{
-          border: "none",
-          background: location.pathname === "/refer" ? "#0f2a5c" : "transparent",
-          color: location.pathname === "/refer" ? "white" : "#94a3b8",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          cursor: "pointer"
-        }}
-        onClick={() => navigate("/refer")}
-      >
-        <span style={{ fontSize: "18px" }}>👥</span>
-        <span style={{ fontSize: "10px", marginTop: "2px", fontWeight: "600" }}>Refer</span>
-      </button>
-
-      <button
-        style={{
-          border: "none",
-          background: location.pathname === "/one-time" ? "#0f2a5c" : "transparent",
-          color: location.pathname === "/one-time" ? "white" : "#94a3b8",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          cursor: "pointer"
-        }}
-        onClick={() => navigate("/one-time")}
-      >
-        <span style={{ fontSize: "18px" }}>⚡</span>
-        <span style={{ fontSize: "10px", marginTop: "2px", fontWeight: "600" }}>Onetime</span>
-      </button>
-    </nav>
-  );
-}
-
 function App() {
   const [popup, setPopup] = useState(null);
 
@@ -193,6 +66,7 @@ function App() {
     downloadUrl: ""
   });
 
+  // 🔔 পুশ নোটিফিকেশন সেটআপ
   useEffect(() => {
     const initPushNotifications = async () => {
       try {
@@ -234,6 +108,7 @@ function App() {
     };
   }, []);
 
+  // 🚀 অ্যাপ আপডেট চেকার
   useEffect(() => {
     const checkAppUpdate = async () => {
       try {
@@ -255,6 +130,7 @@ function App() {
     checkAppUpdate();
   }, []);
 
+  // 🔌 সকেট নোটিফিকেশন লিসেনার
   useEffect(() => {
     const email = localStorage.getItem("email");
 
@@ -279,9 +155,9 @@ function App() {
     <BrowserRouter>
       <BackButtonHandler />
 
-      {/* মূল র্যাপারে ব্যাকগ্রাউন্ড কালার #020817 এবং প্যাডিং ফিট করা হয়েছে যাতে কোনো সাদা ফাঁকা অংশ না থাকে */}
-      <div style={{ width: "100%", maxWidth: "100vw", overflowX: "hidden", minHeight: "100vh", background: "#020817", boxSizing: "border-box", paddingBottom: "65px" }}>
+      <div style={{ width: "100%", maxWidth: "100vw", overflowX: "hidden", minHeight: "100vh", background: "#f8fafc", boxSizing: "border-box" }}>
 
+        {/* 🚀 অ্যাপ আপডেট মোডাল */}
         {updateModal.show && (
           <div style={{
             position: "fixed",
@@ -294,20 +170,19 @@ function App() {
             padding: "20px"
           }}>
             <div style={{
-              background: "#1e1b4b",
+              background: "#ffffff",
               borderRadius: "24px",
               padding: "24px",
               maxWidth: "360px",
               width: "100%",
               textAlign: "center",
-              color: "#fff",
-              border: "1px solid rgba(255,255,255,0.1)",
-              boxShadow: "0 20px 50px rgba(0,0,0,0.5)"
+              color: "#0f172a",
+              boxShadow: "0 20px 50px rgba(0,0,0,0.2)"
             }}>
-              <div style={{ fontSize: "48px", marginBottom: "10px" }}>🚀</div>
-              <h3 style={{ margin: "0 0 8px 0", fontSize: "20px" }}>New Update Available!</h3>
-              <p style={{ fontSize: "14px", color: "#94a3b8", lineHeight: "20px", marginBottom: "20px" }}>
-                A new version of Save Money app is available with new features and performance improvements.
+              <div style={{ fontSize: "48px", marginBottom: "10px" }}>🥬</div>
+              <h3 style={{ margin: "0 0 8px 0", fontSize: "20px", fontWeight: "bold" }}>Kacha Bazaar Update!</h3>
+              <p style={{ fontSize: "14px", color: "#64748b", lineHeight: "20px", marginBottom: "20px" }}>
+                A new version of Kacha Bazaar app is available with faster delivery and improvements.
               </p>
               
               <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
@@ -318,7 +193,7 @@ function App() {
                     padding: "14px",
                     borderRadius: "14px",
                     border: "none",
-                    background: "linear-gradient(135deg,#22c55e,#10b981)",
+                    background: "#166534",
                     color: "#fff",
                     fontWeight: "bold",
                     fontSize: "16px",
@@ -334,9 +209,9 @@ function App() {
                     width: "100%",
                     padding: "12px",
                     borderRadius: "14px",
-                    border: "1px solid rgba(255,255,255,0.2)",
+                    border: "1px solid #cbd5e1",
                     background: "transparent",
-                    color: "#cbd5e1",
+                    color: "#64748b",
                     fontWeight: "500",
                     fontSize: "14px",
                     cursor: "pointer"
@@ -349,23 +224,27 @@ function App() {
           </div>
         )}
 
+        {/* 🔔 নোটিফিকেশন পপআপ */}
         {popup && (
           <div style={{
             position: "fixed",
             top: "20px",
             right: "20px",
-            background: "#22c55e",
+            background: "#166534",
             color: "white",
             padding: "15px",
             borderRadius: "10px",
-            zIndex: 9999
+            zIndex: 9999,
+            boxShadow: "0 4px 12px rgba(0,0,0,0.15)"
           }}>
-            <h4>{popup.title}</h4>
-            <p>{popup.message}</p>
+            <h4 style={{ margin: 0, fontSize: "15px" }}>{popup.title}</h4>
+            <p style={{ margin: "4px 0 0 0", fontSize: "13px" }}>{popup.message}</p>
           </div>
         )}
 
+        {/* 🚦 অ্যাপের মূল রাউটস */}
         <Routes>
+          {/* হোম পেজ */}
           <Route
             path="/"
             element={
@@ -373,28 +252,6 @@ function App() {
                 <Home />
               </ProtectedRoute>
             }
-          />
-
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-
-          <Route
-            path="/leaderboard"
-            element={
-              <ProtectedRoute>
-                <Leaderboard />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route 
-            path="/about" 
-            element={
-              <ProtectedRoute>
-                <AboutCompany />
-              </ProtectedRoute>
-            } 
           />
 
           <Route
@@ -406,105 +263,57 @@ function App() {
             }
           />
 
+          {/* ক্যাটাগরি পেজ */}
           <Route
-            path="/invest-now"
+            path="/category"
             element={
               <ProtectedRoute>
-                <InvestNow />
+                <Category />
               </ProtectedRoute>
             }
           />
 
-          <Route 
-            path="/bank-details" 
-            element={
-              <ProtectedRoute>
-                <BankDetails />
-              </ProtectedRoute>
-            } 
-          />
-
-          <Route 
-            path="/withdraw"
-            element={   
-              <ProtectedRoute>
-                <Withdraw />   
-              </ProtectedRoute>
-            }
-          />
-
+          {/* কার্ট পেজ */}
           <Route
-            path="/wallet"
+            path="/cart"
             element={
               <ProtectedRoute>
-                <Wallet />
+                <Cart />
               </ProtectedRoute>
             }
           />
 
+          {/* অর্ডার পেজ */}
           <Route
-            path="/refer"
+            path="/orders"
             element={
               <ProtectedRoute>
-                <Refer />
+                <Orders />
               </ProtectedRoute>
             }
           />
 
+          {/* হেল্প ও সাপোর্ট পেজ */}
           <Route
-            path="/kacha-bazaar"
+            path="/help"
             element={
               <ProtectedRoute>
-                <SaveMoney />
+                <Help />
               </ProtectedRoute>
             }
           />
 
+          {/* প্রোফাইল / অ্যাকাউন্ট পেজ */}
           <Route
-            path="/one-time"
+            path="/profile"
             element={
               <ProtectedRoute>
-                <OneTime />
+                <Profile />
               </ProtectedRoute>
             }
           />
 
-          <Route
-            path="/my-investment"
-            element={
-              <ProtectedRoute>
-                <MyInvestment />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/invest-history"
-            element={
-              <ProtectedRoute>
-                <InvestHistory />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/bonus-history"
-            element={
-              <ProtectedRoute>
-                <BonusHistory />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/kyc"
-            element={
-              <ProtectedRoute>
-                <KYC />
-              </ProtectedRoute>
-            }
-          />
-
+          {/* নোটিফিকেশন পেজ */}
           <Route
             path="/notifications"
             element={
@@ -514,162 +323,19 @@ function App() {
             }
           />
 
-          <Route
-            path="/legal/:type"
-            element={
-              <ProtectedRoute>
-                <LegalPages />
-              </ProtectedRoute>
-            }
-          />
+          {/* অথেনটিকেশন পেজ */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
 
-          <Route
-            path="/performance-bonus"
-            element={
-              <ProtectedRoute>
-                <PerformanceBonus />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/team-bonus"
-            element={
-              <ProtectedRoute>
-                <TeamBonus />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/royalty-bonus"
-            element={
-              <ProtectedRoute>
-                <RoyaltyBonus />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/referral-tree"
-            element={
-              <ProtectedRoute>
-                <ReferralTree />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/analytics"
-            element={
-              <ProtectedRoute>
-                <UserAnalytics />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/daily-reward"
-            element={
-              <ProtectedRoute>
-                <DailyReward />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/investment-assistant"
-            element={
-              <ProtectedRoute>
-                <InvestmentAssistant />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route path="/admin-addon" element={<ProtectedRoute><AdminAddon /></ProtectedRoute>} />
-
-          <Route path="/ecommerce-home" element={<EcommerceHome />} />
-
-          <Route
-            path="/support"
-            element={
-              <ProtectedRoute>
-                <Support />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/admin"
-            element={
-              <AdminRoute>
-                <AdminDashboard />
-              </AdminRoute>
-            }
-          />
-
-          <Route
-            path="/admin-kyc"
-            element={
-              <AdminRoute>
-                <AdminKYC />
-              </AdminRoute>
-            }
-          />
-
-          <Route
-            path="/admin-analytics"
-            element={
-              <AdminRoute>
-                <AdvancedAdminAnalytics />
-              </AdminRoute>
-            }
-          />
-
-          <Route
-            path="/admin-user-control"
-            element={
-              <AdminRoute>
-                <AdminUserControl />
-              </AdminRoute>
-            }
-          />
-
-          <Route
-            path="/admin-one-time"
-            element={
-              <AdminRoute>
-                <AdminOneTime />
-              </AdminRoute>
-            }
-          />
-
-          <Route
-            path="/admin-support"
-            element={
-              <AdminRoute>
-                <AdminSupport />
-              </AdminRoute>
-            }
-          />
-
-          <Route
-            path="/admin-notify"
-            element={
-              <AdminRoute>
-                <AdminNotification />
-              </AdminRoute>
-            }
-          />
-
+          {/* ডিফল্ট ফলব্যাক রাউট */}
           <Route path="*" element={<Login />} />
-
         </Routes>
 
         <ToastContainer
           position="top-center"
           autoClose={2500}
-          theme="dark"
+          theme="light"
         />
 
         <Toaster
@@ -678,8 +344,6 @@ function App() {
         />
 
       </div>
-
-      <GlobalBottomNav />
     </BrowserRouter>
   );
 }
