@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { 
   Search, 
@@ -22,7 +23,6 @@ export default function App() {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  // ডায়নামিক স্টেট (যেগুলো অ্যাডমিন প্যানেল থেকে API এর মাধ্যমে আসবে)
   const [banners, setBanners] = useState([
     { id: 1, title: 'GET 50% OFF', desc: 'on your First Order!', badge: 'Offer', bg: 'from-emerald-100 to-green-50', border: 'border-emerald-200', badgeColor: 'text-emerald-800 bg-emerald-200/60', btnColor: 'bg-emerald-700', emoji: '🍅' },
     { id: 2, title: 'FLASH SALE:', desc: 'Fresh Vegetables!', badge: 'Flash Sale', bg: 'from-sky-100 to-blue-50', border: 'border-sky-200', badgeColor: 'text-sky-800 bg-sky-200/60', btnColor: 'bg-sky-700', emoji: '🥦' }
@@ -39,21 +39,20 @@ export default function App() {
     { id: 'personal', name: 'Personal Care', icon: '🧴', bg: 'bg-cyan-100' },
   ]);
 
-  // অ্যাডমিন প্যানেল থেকে নিয়ন্ত্রিত সেকশনসমূহ ও প্রোডাক্টস
   const [sectionsData, setSectionsData] = useState({
     freshToday: [
-      { id: f1, name: 'Fresh Organic Tomatoes (1kg)', price: '85', oldPrice: '95', image: '🍅' },
-      { id: f2, name: 'Fresh Green Spinach (500g)', price: '30', oldPrice: '40', image: '🥬' }
+      { id: 'f1', name: 'Fresh Organic Tomatoes (1kg)', price: '85', oldPrice: '95', image: '🍅' },
+      { id: 'f2', name: 'Fresh Green Spinach (500g)', price: '30', oldPrice: '40', image: '🥬' }
     ],
     featuredProducts: [
-      { id: ep1, name: 'Fresh Farm Milk (1L)', price: '60', oldPrice: '', image: '🥛' },
-      { id: ep2, name: 'Organic Basmati Rice (5kg)', price: '360', oldPrice: '399', image: '🌾' }
+      { id: 'ep1', name: 'Fresh Farm Milk (1L)', price: '60', oldPrice: '', image: '🥛' },
+      { id: 'ep2', name: 'Organic Basmati Rice (5kg)', price: '360', oldPrice: '399', image: '🌾' }
     ],
     bestSellers: [
-      { id: b1, name: 'Crispy Potato Chips', price: '80', oldPrice: '', image: '🍿' }
+      { id: 'b1', name: 'Crispy Potato Chips', price: '80', oldPrice: '', image: '🍿' }
     ],
     seasonalSpecials: [
-      { id: s1, name: 'Juicy Mangoes (1kg)', price: '150', oldPrice: '180', image: '🥭' }
+      { id: 's1', name: 'Juicy Mangoes (1kg)', price: '150', oldPrice: '180', image: '🥭' }
     ],
     allProducts: [
       { id: 1, name: 'Premium Red Tomatoes (1kg)', price: '85', oldPrice: '95', image: '🍅' },
@@ -68,15 +67,27 @@ export default function App() {
   });
 
   useEffect(() => {
-    // এখানে পরবর্তীতে ব্যাকএন্ড/অ্যাডমিন প্যানেল থেকে API কল করে ডাটা সেট করতে হবে:
-    // fetch('YOUR_BACKEND_API/home-layout')
-    //   .then(res => res.json())
-    //   .then(data => {
-    //      setBanners(data.banners);
-    //      setCategories(data.categories);
-    //      setSectionsData(data.sections);
-    //   });
+    handleDetectLocation();
   }, []);
+
+  const handleDetectLocation = () => {
+    setIsLocating(true);
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        () => {
+          setIsLocating(false);
+          setLocationName('India');
+        },
+        () => {
+          setIsLocating(false);
+          setLocationName('India');
+        }
+      );
+    } else {
+      setIsLocating(false);
+      setLocationName('India');
+    }
+  };
 
   if (activeTab === 'account') {
     return <Account />;
@@ -85,7 +96,6 @@ export default function App() {
   return (
     <div className="max-w-md mx-auto min-h-screen bg-[#F4F5F7] text-slate-800 flex flex-col font-sans relative shadow-2xl pb-24 select-none">
       
-      {/* Header & Banner Area with Store Background Image */}
       <header 
         className="sticky top-0 z-35 relative bg-cover bg-center border-b border-slate-200/80 shadow-sm pb-4 pt-1" 
         style={{ 
@@ -94,7 +104,6 @@ export default function App() {
       >
         <div className="px-4 pt-3 pb-2 space-y-3">
           
-          {/* Top Row */}
           <div className="flex items-center justify-between pt-1">
             <div className="flex items-center gap-2.5">
               <button 
@@ -125,7 +134,6 @@ export default function App() {
             </button>
           </div>
 
-          {/* Search Bar */}
           <div className="relative pt-1">
             <input 
               type="text" 
@@ -137,7 +145,6 @@ export default function App() {
             </button>
           </div>
 
-          {/* Admin Controlled Dynamic Banner Slider */}
           {banners.length > 0 && (
             <div className="pt-2">
               <div className={`w-full bg-gradient-to-r ${banners[currentSlide].bg} p-4 rounded-3xl border ${banners[currentSlide].border} relative overflow-hidden flex items-center justify-between shadow-xs transition-all duration-300`}>
@@ -154,7 +161,6 @@ export default function App() {
                 <span className="text-5xl opacity-90 pr-2">{banners[currentSlide].emoji}</span>
               </div>
 
-              {/* Slider Dots */}
               <div className="flex justify-center items-center gap-1.5 pt-3">
                 {banners.map((_, idx) => (
                   <button
@@ -197,7 +203,6 @@ export default function App() {
       ) : (
         <main className="flex-1 px-4 py-4 space-y-6">
 
-          {/* Shop by Categories (Admin Controlled Order & Icons) */}
           <section>
             <h2 className="text-base font-bold text-slate-900 mb-3">Shop by Categories</h2>
             <div className="grid grid-cols-4 gap-3">
@@ -218,7 +223,6 @@ export default function App() {
             </div>
           </section>
 
-          {/* Fresh Today Section (Admin Controlled) */}
           <section className="space-y-3">
             <div className="flex items-center justify-between">
               <h2 className="text-base font-bold text-slate-900">Fresh Today</h2>
@@ -241,7 +245,6 @@ export default function App() {
             </div>
           </section>
 
-          {/* Featured Products Section (Admin Controlled) */}
           <section className="space-y-3">
             <div className="flex items-center justify-between">
               <h2 className="text-base font-bold text-slate-900">Featured Products</h2>
@@ -264,7 +267,6 @@ export default function App() {
             </div>
           </section>
 
-          {/* Best Sellers Section (Admin Controlled) */}
           <section className="space-y-3">
             <div className="flex items-center justify-between">
               <h2 className="text-base font-bold text-slate-900">Best Sellers</h2>
@@ -287,7 +289,6 @@ export default function App() {
             </div>
           </section>
 
-          {/* Seasonal Specials Section (Admin Controlled) */}
           <section className="space-y-3">
             <div className="flex items-center justify-between">
               <h2 className="text-base font-bold text-slate-900">Seasonal Specials</h2>
@@ -310,7 +311,6 @@ export default function App() {
             </div>
           </section>
 
-          {/* All Products Section - ইনফিনিট স্ক্রল ফিড (মিক্সড প্রোডাক্ট, কোনো View All নেই) */}
           <section className="space-y-3">
             <div className="flex items-center justify-between">
               <h2 className="text-base font-bold text-slate-900">All Products</h2>
@@ -348,7 +348,6 @@ export default function App() {
         </main>
       )}
 
-      {/* Fixed Bottom Navigation */}
       <nav className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white border-t border-slate-200 z-40 px-3 py-2 shadow-lg">
         <div className="flex items-center justify-around">
           
@@ -400,7 +399,6 @@ export default function App() {
         </div>
       </nav>
 
-      {/* Login Modal */}
       {isLoginOpen && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl w-full max-w-sm p-5 space-y-4 shadow-xl">
