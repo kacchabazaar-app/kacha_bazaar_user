@@ -71,7 +71,7 @@ export default function App() {
           <div className="flex items-center justify-between">
             
             {/* Top Left: Profile sticker + Kacha Bazaar logo & Location */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2.5">
               <button 
                 onClick={() => setIsProfileOpen(true)} 
                 className="w-10 h-10 rounded-full bg-orange-100 border-2 border-orange-200 flex items-center justify-center overflow-hidden hover:scale-105 active:scale-95 transition-all shadow-sm shrink-0"
@@ -106,7 +106,7 @@ export default function App() {
             </button>
           </div>
 
-          {/* Search   Bar */}
+          {/* Search Bar */}
           <div className="mt-3 relative">
             <input 
               type="text" 
