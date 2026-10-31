@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { 
   Search, 
@@ -13,18 +14,52 @@ import {
   ArrowLeft,
   RefreshCw
 } from 'lucide-react';
+import Account from './Account';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('home');
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [viewAllSection, setViewAllSection] = useState(null);
   
   const [locationName, setLocationName] = useState('India');
   const [isLocating, setIsLocating] = useState(false);
 
-  const [cartCount] = useState(3);
+  const [cartCount, setCartCount] = useState(3);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const banners = [
+    {
+      title: 'GET 50% OFF',
+      desc: 'on your First Order!',
+      badge: 'Offer',
+      bg: 'from-emerald-100 to-green-50',
+      border: 'border-emerald-200',
+      badgeColor: 'text-emerald-800 bg-emerald-200/60',
+      btnColor: 'bg-emerald-700',
+      emoji: '🍅'
+    },
+    {
+      title: 'FLASH SALE:',
+      desc: 'Fresh Vegetables!',
+      badge: 'Flash Sale',
+      bg: 'from-sky-100 to-blue-50',
+      border: 'border-sky-200',
+      badgeColor: 'text-sky-800 bg-sky-200/60',
+      btnColor: 'bg-sky-700',
+      emoji: '🥦'
+    },
+    {
+      title: 'WEEKEND DEALS:',
+      desc: 'Best Grocery Offers!',
+      badge: 'Weekend',
+      bg: 'from-lime-100 to-emerald-50',
+      border: 'border-lime-200',
+      badgeColor: 'text-lime-800 bg-lime-200/60',
+      btnColor: 'bg-emerald-800',
+      emoji: '🧺'
+    }
+  ];
 
   const categories = [
     { id: 'veggies', name: 'Vegetables', icon: '🥦', bg: 'bg-emerald-100' },
@@ -37,7 +72,15 @@ export default function App() {
     { id: 'personal', name: 'Personal Care', icon: '🧴', bg: 'bg-cyan-100' },
   ];
 
-  const products = [];
+  // সব প্রোডাক্ট মিক্স করে দেখানোর জন্য স্যাম্পল অল প্রোডাক্ট লিস্ট
+  const allProducts = [
+    { id: 1, name: 'Premium Red Tomatoes (1kg)', price: '85', oldPrice: '95', image: '🍅', category: 'veggies' },
+    { id: 2, name: 'Fresh Farm Milk (1L)', price: '60', oldPrice: '', image: '🥛', category: 'dairy' },
+    { id: 3, name: 'Organic Basmati Rice (5kg)', price: '360', oldPrice: '399', image: '🌾', category: 'staples' },
+    { id: 'crispy', name: 'Crispy Potato Chips', price: '80', oldPrice: '', image: '🍿', category: 'snacks' },
+    { id: 5, name: 'Fresh Apples (1kg)', price: '120', oldPrice: '150', image: '🍎', category: 'fruits' },
+    { id: 6, name: 'Fresh Chicken Breast (500g)', price: '140', oldPrice: '160', image: '🍗', category: 'meat' },
+  ];
 
   useEffect(() => {
     handleDetectLocation();
@@ -62,19 +105,30 @@ export default function App() {
     }
   };
 
+  // যদি একাউন্ট ট্যাব একটিভ থাকে তবে Account কম্পোনেন্ট রেন্ডার করবে
+  if (activeTab === 'account') {
+    return <Account />;
+  }
+
   return (
-    <div className="max-w-md mx-auto min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans relative shadow-2xl pb-24 select-none">
+    <div className="max-w-md mx-auto min-h-screen bg-[#F4F5F7] text-slate-800 flex flex-col font-sans relative shadow-2xl pb-24 select-none">
       
-      {/* Header with Store Background Image Overlay */}
-      <header className="sticky top-0 z-30 relative bg-cover bg-center border-b border-slate-200 shadow-xs" style={{ backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.95)), url('https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=600&q=80')` }}>
-        <div className="px-4 pt-3 pb-3">
-          <div className="flex items-center justify-between">
-            
-            {/* Top Left: Profile sticker + Kacha Bazaar logo & Location */}
+      {/* Header & Banner Area with Full Store Background Image */}
+      <header 
+        className="sticky top-0 z-30 relative bg-cover bg-center border-b border-slate-200/80 shadow-sm pb-4 pt-1" 
+        style={{ 
+          backgroundImage: `linear-gradient(rgba(244, 245, 247, 0.93), rgba(244, 245, 247, 0.96)), url('https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=600&q=80')` 
+        }}
+      >
+        <div className="px-4 pt-3 pb-2 space-y-3">
+          
+          {/* Top Row: Profile sticker, Logo & Login/Register */}
+          <div className="flex items-center justify-between pt-1">
             <div className="flex items-center gap-2.5">
               <button 
-                onClick={() => setIsProfileOpen(true)} 
+                onClick={() => setActiveTab('account')} 
                 className="w-10 h-10 rounded-full bg-orange-100 border-2 border-orange-200 flex items-center justify-center overflow-hidden hover:scale-105 active:scale-95 transition-all shadow-sm shrink-0"
+                title="Open Account"
               >
                 <User className="w-6 h-6 text-orange-600" />
               </button>
@@ -97,7 +151,6 @@ export default function App() {
               </div>
             </div>
 
-            {/* Top Right: Login/Register Button */}
             <button 
               onClick={() => setIsLoginOpen(true)}
               className="px-4 py-1.5 rounded-full border border-slate-300 bg-white text-xs font-bold text-slate-800 hover:bg-slate-50 active:scale-95 transition-all shadow-xs"
@@ -106,97 +159,78 @@ export default function App() {
             </button>
           </div>
 
-          {/* Search Bar */}
-          <div className="mt-3 relative">
+          {/* Search Bar - একটু নিচে নামানো হয়েছে */}
+          <div className="relative pt-1">
             <input 
               type="text" 
               placeholder="Search for fresh products, veggies, or groceries..." 
-              className="w-full bg-white/90 text-slate-800 text-xs py-2.5 pl-4 pr-10 rounded-full border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-600 shadow-xs transition-all placeholder:text-slate-400 placeholder:italic"
+              className="w-full bg-white/95 text-slate-800 text-xs py-3 pl-4 pr-10 rounded-full border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-600 shadow-xs transition-all placeholder:text-slate-400 placeholder:italic"
             />
-            <button className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-emerald-600">
+            <button className="absolute right-3 top-1/2 translate-y-0.5 text-slate-500 hover:text-emerald-600">
               <Search className="w-4 h-4" />
             </button>
           </div>
+
+          {/* Single Banner Slider (একবারে একটি ব্যানার দেখাবে) */}
+          <div className="pt-2">
+            <div className={`w-full bg-gradient-to-r ${banners[currentSlide].bg} p-4 rounded-3xl border ${banners[currentSlide].border} relative overflow-hidden flex items-center justify-between shadow-xs transition-all duration-300`}>
+              <div className="space-y-1.5">
+                <span className={`text-[10px] font-black uppercase tracking-wider ${banners[currentSlide].badgeColor} px-2.5 py-0.5 rounded-full`}>
+                  {banners[currentSlide].badge}
+                </span>
+                <h3 className="font-black text-slate-900 text-base leading-tight">{banners[currentSlide].title}</h3>
+                <p className="text-xs text-slate-600 font-semibold">{banners[currentSlide].desc}</p>
+                <button className={`mt-2 text-[11px] font-bold ${banners[currentSlide].btnColor} text-white px-3.5 py-1.5 rounded-xl shadow-xs active:scale-95`}>
+                  SHOP NOW
+                </button>
+              </div>
+              <span className="text-5xl opacity-90 pr-2">{banners[currentSlide].emoji}</span>
+            </div>
+
+            {/* Slider Dots */}
+            <div className="flex justify-center items-center gap-1.5 pt-3">
+              {banners.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentSlide(idx)}
+                  className={`h-1.5 rounded-full transition-all duration-300 ${currentSlide === idx ? 'w-5 bg-emerald-600' : 'w-1.5 bg-slate-300'}`}
+                />
+              ))}
+            </div>
+          </div>
+
         </div>
       </header>
 
-      {selectedCategory || viewAllSection ? (
-        <main className="flex-1 bg-white p-4 flex flex-col items-center justify-center min-h-[60vh] text-center">
-          <div className="w-full flex items-center justify-between mb-6 pb-2 border-b border-slate-100">
+      {selectedCategory ? (
+        <main className="flex-1 bg-[#F4F5F7] p-4 flex flex-col items-center justify-center min-h-[60vh] text-center">
+          <div className="w-full flex items-center justify-between mb-6 pb-2 border-b border-slate-200">
             <button 
-              onClick={() => { setSelectedCategory(null); setViewAllSection(null); }}
-              className="p-2 rounded-full hover:bg-slate-100 transition-colors flex items-center gap-1 text-slate-600 text-sm font-semibold"
+              onClick={() => setSelectedCategory(null)}
+              className="p-2 rounded-full hover:bg-slate-200 transition-colors flex items-center gap-1 text-slate-700 text-sm font-semibold"
             >
               <ArrowLeft className="w-5 h-5" /> Back
             </button>
-            <h2 className="text-base font-bold text-slate-800 capitalize">
-              {selectedCategory ? categories.find(c => c.id === selectedCategory)?.name : viewAllSection}
+            <h2 className="text-base font-bold text-slate-900 capitalize">
+              {categories.find(c => c.id === selectedCategory)?.name}
             </h2>
             <div className="w-8"></div>
           </div>
           <div className="my-auto py-12 flex flex-col items-center">
-            <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center text-slate-300 text-3xl mb-4">
+            <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center text-slate-300 text-3xl mb-4 shadow-xs">
               🛒
             </div>
-            <h3 className="text-slate-700 font-bold text-base mb-1">No products uploaded yet</h3>
-            <p className="text-slate-400 text-xs max-w-xs leading-relaxed">
+            <h3 className="text-slate-800 font-bold text-base mb-1">No products uploaded yet</h3>
+            <p className="text-slate-500 text-xs max-w-xs leading-relaxed">
               Products added by admin in this category will appear here. Check back later!
             </p>
           </div>
         </main>
       ) : (
-        <main className="flex-1 px-4 py-3 space-y-5">
-
-          {/* Promo Banners Slider */}
-          <section className="space-y-2">
-            <div className="flex gap-3 overflow-x-auto no-scrollbar scroll-smooth pb-1">
-              <div className="shrink-0 w-64 bg-gradient-to-r from-emerald-100 to-green-50 p-3.5 rounded-2xl border border-emerald-200/60 relative overflow-hidden flex flex-col justify-between">
-                <div>
-                  <span className="text-[10px] font-black uppercase tracking-wider text-emerald-800 bg-emerald-200/60 px-2 py-0.5 rounded-full">Offer</span>
-                  <h3 className="font-black text-slate-800 text-sm mt-1 leading-tight">GET 50% OFF</h3>
-                  <p className="text-[11px] text-slate-600 font-medium">on your First Order!</p>
-                </div>
-                <button className="mt-3 w-fit text-[10px] font-bold bg-emerald-700 text-white px-3 py-1 rounded-md shadow-xs active:scale-95">
-                  SHOP NOW
-                </button>
-                <span className="absolute right-2 bottom-1 text-4xl opacity-80">🍅</span>
-              </div>
-
-              <div className="shrink-0 w-64 bg-gradient-to-r from-sky-100 to-blue-50 p-3.5 rounded-2xl border border-sky-200/60 relative overflow-hidden flex flex-col justify-between">
-                <div>
-                  <span className="text-[10px] font-black uppercase tracking-wider text-sky-800 bg-sky-200/60 px-2 py-0.5 rounded-full">Flash Sale</span>
-                  <h3 className="font-black text-slate-800 text-sm mt-1 leading-tight">FLASH SALE:</h3>
-                  <p className="text-[11px] text-slate-600 font-medium">Fresh Vegetables!</p>
-                </div>
-                <button className="mt-3 w-fit text-[10px] font-bold bg-sky-700 text-white px-3 py-1 rounded-md shadow-xs active:scale-95">
-                  SHOP NOW
-                </button>
-                <span className="absolute right-2 bottom-1 text-4xl opacity-80">🥦</span>
-              </div>
-
-              <div className="shrink-0 w-64 bg-gradient-to-r from-lime-100 to-emerald-50 p-3.5 rounded-2xl border border-lime-200/60 relative overflow-hidden flex flex-col justify-between">
-                <div>
-                  <span className="text-[10px] font-black uppercase tracking-wider text-lime-800 bg-lime-200/60 px-2 py-0.5 rounded-full">Weekend</span>
-                  <h3 className="font-black text-slate-800 text-sm mt-1 leading-tight">WEEKEND DEALS:</h3>
-                  <p className="text-[11px] text-slate-600 font-medium">Best Grocery Offers!</p>
-                </div>
-                <button className="mt-3 w-fit text-[10px] font-bold bg-emerald-800 text-white px-3 py-1 rounded-md shadow-xs active:scale-95">
-                  SHOP NOW
-                </button>
-                <span className="absolute right-2 bottom-1 text-4xl opacity-80">🧺</span>
-              </div>
-            </div>
-
-            <div className="flex justify-center items-center gap-1.5 pt-1">
-              <div className="w-5 h-1.5 bg-emerald-600 rounded-full"></div>
-              <div className="w-1.5 h-1.5 bg-slate-300 rounded-full"></div>
-              <div className="w-1.5 h-1.5 bg-slate-300 rounded-full"></div>
-              <div className="w-1.5 h-1.5 bg-slate-300 rounded-full"></div>
-            </div>
-          </section>
+        <main className="flex-1 px-4 py-4 space-y-6">
 
           {/* Shop by Categories */}
-          <section className="pt-2">
+          <section>
             <h2 className="text-base font-bold text-slate-900 mb-3">Shop by Categories</h2>
             <div className="grid grid-cols-4 gap-3">
               {categories.map((cat) => (
@@ -216,26 +250,40 @@ export default function App() {
             </div>
           </section>
 
-          {/* Product Sections */}
-          {['Fresh Today', 'Featured Products', 'Best Sellers', 'Seasonal Specials'].map((title, idx) => (
-            <section key={idx} className="pt-2">
-              <div className="flex items-center justify-between mb-3">
-                <h2 className="text-base font-bold text-slate-900">{title}</h2>
-                <button 
-                  onClick={() => setViewAllSection(title)}
-                  className="text-xs font-semibold text-slate-500 hover:text-emerald-700 flex items-center gap-0.5 active:scale-95"
-                >
-                  View All <ChevronRight className="w-4 h-4" />
-                </button>
-              </div>
+          {/* All Products Section - কোনো View All ছাড়াই মিক্সড প্রোডাক্ট গ্রিড */}
+          <section className="space-y-3">
+            <div className="flex items-center justify-between">
+              <h2 className="text-base font-bold text-slate-900">All Products</h2>
+              <span className="text-xs text-slate-500 font-medium">Infinite Scroll Feed</span>
+            </div>
 
-              <div className="bg-white border border-slate-200/80 rounded-2xl p-4 text-center shadow-xs">
-                <p className="text-slate-400 text-xs italic">
-                  No products available in {title} yet. Admin uploaded products will show here.
-                </p>
-              </div>
-            </section>
-          ))}
+            <div className="grid grid-cols-2 gap-3">
+              {allProducts.map((product) => (
+                <div key={product.id} className="border border-slate-200/80 rounded-2xl p-3 bg-white shadow-xs relative flex flex-col justify-between">
+                  <div>
+                    <div className="h-28 bg-slate-50 rounded-xl flex items-center justify-center text-4xl mb-2">
+                      {product.image}
+                    </div>
+                    <h4 className="font-semibold text-xs text-slate-800 line-clamp-2">{product.name}</h4>
+                  </div>
+                  <div className="flex items-center justify-between mt-3">
+                    <div>
+                      <span className="font-bold text-xs text-slate-900">₹{product.price}</span>
+                      {product.oldPrice && (
+                        <span className="text-[10px] text-slate-400 line-through ml-1">₹{product.oldPrice}</span>
+                      )}
+                    </div>
+                    <button 
+                      onClick={() => setCartCount(prev => prev + 1)}
+                      className="px-2.5 py-1 text-xs bg-emerald-600 text-white font-bold rounded-lg hover:bg-emerald-700 active:scale-95 transition-all shadow-xs"
+                    >
+                      +ADD
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
 
         </main>
       )}
@@ -245,8 +293,8 @@ export default function App() {
         <div className="flex items-center justify-around">
           
           <button 
-            onClick={() => { setActiveTab('home'); setSelectedCategory(null); setViewAllSection(null); }}
-            className={`flex flex-col items-center gap-1 transition-colors ${activeTab === 'home' && !selectedCategory && !viewAllSection ? 'text-emerald-700 font-bold' : 'text-slate-500'}`}
+            onClick={() => { setActiveTab('home'); setSelectedCategory(null); }}
+            className={`flex flex-col items-center gap-1 transition-colors ${activeTab === 'home' && !selectedCategory ? 'text-emerald-700 font-bold' : 'text-slate-500'}`}
           >
             <HomeIcon className="w-5 h-5" />
             <span className="text-[10px]">Home</span>
@@ -291,33 +339,6 @@ export default function App() {
 
         </div>
       </nav>
-
-      {/* Profile Modal */}
-      {isProfileOpen && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl w-full max-w-sm p-5 space-y-4 shadow-xl">
-            <div className="flex justify-between items-center border-b pb-3">
-              <h3 className="font-bold text-slate-800 text-base">User Profile</h3>
-              <button onClick={() => setIsProfileOpen(false)} className="text-slate-400 text-lg font-bold">✕</button>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="w-14 h-14 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 font-bold text-xl">
-                U
-              </div>
-              <div>
-                <h4 className="font-bold text-slate-800">Guest User</h4>
-                <p className="text-xs text-slate-400">Welcome to Kacha Bazaar</p>
-              </div>
-            </div>
-            <button 
-              onClick={() => { setIsProfileOpen(false); setIsLoginOpen(true); }}
-              className="w-full py-2.5 bg-emerald-600 text-white font-bold rounded-xl text-xs hover:bg-emerald-700 transition-all"
-            >
-              Login to Account
-            </button>
-          </div>
-        </div>
-      )}
 
       {/* Login Modal */}
       {isLoginOpen && (
