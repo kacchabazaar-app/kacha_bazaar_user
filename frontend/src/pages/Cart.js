@@ -1,4 +1,3 @@
-```react
 import React, { useState } from 'react';
 import { 
   User, 
@@ -13,25 +12,19 @@ import {
   ClipboardList, 
   HelpCircle, 
   ShoppingBag,
-  Info,
-  Edit2
+  Info
 } from 'lucide-react';
 
 export default function App() {
-  // Navigation State
-  const [activeTab, setActiveTab] = useState('cart'); // 'home', 'category', 'cart', 'order', 'help'
-  const [userLocation, setUserLocation] = useState('B-14, Greenview Apts, Bangalore');
-
-  // Empty initial cart array - Strictly NO DEMO ITEMS by default
+  const [activeTab, setActiveTab] = useState('cart');
+  const [userLocation] = useState('B-14, Greenview Apts, Bangalore');
   const [cartItems, setCartItems] = useState([]);
 
-  // Calculate dynamic totals
   const itemTotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const deliveryFee = cartItems.length > 0 ? 30 : 0;
-  const taxes = cartItems.length > 0 ? Math.round(itemTotal * 0.05) : 0; // 5% GST
+  const taxes = cartItems.length > 0 ? Math.round(itemTotal * 0.05) : 0;
   const finalTotal = itemTotal + deliveryFee + taxes;
 
-  // Quantity updates
   const updateQuantity = (id, delta) => {
     setCartItems(prev => prev.map(item => {
       if (item.id === id) {
@@ -42,7 +35,6 @@ export default function App() {
     }).filter(Boolean));
   };
 
-  // Remove item
   const removeItem = (id) => {
     setCartItems(prev => prev.filter(item => item.id !== id));
   };
@@ -50,7 +42,6 @@ export default function App() {
   return (
     <div className="max-w-md mx-auto min-h-screen bg-slate-100 text-slate-800 flex flex-col font-sans relative shadow-2xl pb-36 select-none">
       
-      {/* Top Header */}
       <header className="sticky top-0 bg-white/95 backdrop-blur-md z-30 px-4 py-3 border-b border-slate-100 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <button className="w-9 h-9 rounded-full bg-amber-100 border border-amber-200 flex items-center justify-center overflow-hidden active:scale-95 transition-transform">
@@ -79,7 +70,6 @@ export default function App() {
         </button>
       </header>
 
-      {/* Location Bar */}
       <div className="bg-emerald-50/80 px-4 py-2 border-b border-emerald-100/60 flex items-center justify-between text-xs">
         <div className="flex items-center gap-1.5 text-slate-700 truncate mr-2">
           <MapPin className="w-4 h-4 text-emerald-700 shrink-0" />
@@ -90,10 +80,8 @@ export default function App() {
         </button>
       </div>
 
-      {/* Main Content Area */}
       <main className="flex-1 px-3 py-3 space-y-3">
         
-        {/* Cart Title & Count */}
         <div className="flex items-center justify-between px-1">
           <div className="flex items-center gap-2">
             <ShoppingCart className="w-5 h-5 text-emerald-700" />
@@ -104,7 +92,6 @@ export default function App() {
           </span>
         </div>
 
-        {/* Dynamic Cart Items List */}
         {cartItems.length > 0 ? (
           <div className="space-y-2.5">
             {cartItems.map((item) => (
@@ -154,7 +141,6 @@ export default function App() {
             ))}
           </div>
         ) : (
-          /* Empty Cart State */
           <div className="bg-white rounded-2xl p-8 border border-slate-200/80 shadow-xs text-center flex flex-col items-center justify-center my-2">
             <div className="w-20 h-20 bg-emerald-50 rounded-full flex items-center justify-center mb-3">
               <ShoppingBag className="w-10 h-10 text-emerald-600" />
@@ -172,7 +158,6 @@ export default function App() {
           </div>
         )}
 
-        {/* Delivery Address Card */}
         <div className="bg-emerald-50/60 border border-emerald-200/60 rounded-2xl p-3.5 relative overflow-hidden">
           <div className="flex items-start justify-between relative z-10">
             <div className="flex items-start gap-3">
@@ -192,7 +177,6 @@ export default function App() {
           </div>
         </div>
 
-        {/* Bill Details Section */}
         <div className="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-xs space-y-3">
           <div className="flex items-center justify-between border-b border-slate-100 pb-2">
             <h3 className="text-xs font-black text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
@@ -229,7 +213,6 @@ export default function App() {
           </div>
         </div>
 
-        {/* Add More Products Section */}
         <div className="space-y-2 pt-1">
           <div className="flex items-center justify-between px-1">
             <h3 className="text-xs font-extrabold text-slate-900">Add More Products</h3>
@@ -241,7 +224,6 @@ export default function App() {
             </button>
           </div>
 
-          {/* Blank area for products uploaded by admin */}
           <div className="bg-white rounded-2xl p-6 border border-slate-200/80 text-center border-dashed">
             <p className="text-slate-400 text-xs font-medium">No additional products available at the moment.</p>
           </div>
@@ -249,7 +231,6 @@ export default function App() {
 
       </main>
 
-      {/* Sticky Bottom Checkout Bar */}
       <div className="fixed bottom-[56px] left-0 right-0 max-w-md mx-auto bg-white/95 backdrop-blur-md border-t border-slate-200 p-3 z-30 shadow-lg">
         <button 
           disabled={cartItems.length === 0}
@@ -264,15 +245,12 @@ export default function App() {
         </button>
       </div>
 
-      {/* Fixed Bottom Navigation Bar */}
       <nav className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white border-t border-slate-200 z-40 px-3 py-2">
         <div className="flex items-center justify-around">
           
           <button 
             onClick={() => setActiveTab('home')}
-            className={`flex flex-col items-center gap-1 transition-colors ${
-              activeTab === 'home' ? 'text-emerald-700 font-bold' : 'text-slate-500'
-            }`}
+            className={`flex flex-col items-center gap-1 transition-colors ${activeTab === 'home' ? 'text-emerald-700 font-bold' : 'text-slate-500'}`}
           >
             <HomeIcon className="w-5 h-5" />
             <span className="text-[10px]">Home</span>
@@ -280,9 +258,7 @@ export default function App() {
 
           <button 
             onClick={() => setActiveTab('category')}
-            className={`flex flex-col items-center gap-1 transition-colors ${
-              activeTab === 'category' ? 'text-emerald-700 font-bold' : 'text-slate-500'
-            }`}
+            className={`flex flex-col items-center gap-1 transition-colors ${activeTab === 'category' ? 'text-emerald-700 font-bold' : 'text-slate-500'}`}
           >
             <Grid className="w-5 h-5" />
             <span className="text-[10px]">Category</span>
@@ -290,9 +266,7 @@ export default function App() {
 
           <button 
             onClick={() => setActiveTab('cart')}
-            className={`flex flex-col items-center gap-1 relative transition-colors ${
-              activeTab === 'cart' ? 'text-emerald-700 font-bold' : 'text-slate-500'
-            }`}
+            className={`flex flex-col items-center gap-1 relative transition-colors ${activeTab === 'cart' ? 'text-emerald-700 font-bold' : 'text-slate-500'}`}
           >
             <ShoppingCart className="w-5 h-5" />
             {cartItems.length > 0 && (
@@ -305,9 +279,7 @@ export default function App() {
 
           <button 
             onClick={() => setActiveTab('order')}
-            className={`flex flex-col items-center gap-1 transition-colors ${
-              activeTab === 'order' ? 'text-emerald-700 font-bold' : 'text-slate-500'
-            }`}
+            className={`flex flex-col items-center gap-1 transition-colors ${activeTab === 'order' ? 'text-emerald-700 font-bold' : 'text-slate-500'}`}
           >
             <ClipboardList className="w-5 h-5" />
             <span className="text-[10px]">Order</span>
@@ -315,9 +287,7 @@ export default function App() {
 
           <button 
             onClick={() => setActiveTab('help')}
-            className={`flex flex-col items-center gap-1 transition-colors ${
-              activeTab === 'help' ? 'text-emerald-700 font-bold' : 'text-slate-500'
-            }`}
+            className={`flex flex-col items-center gap-1 transition-colors ${activeTab === 'help' ? 'text-emerald-700 font-bold' : 'text-slate-500'}`}
           >
             <HelpCircle className="w-5 h-5" />
             <span className="text-[10px]">Help</span>
@@ -329,4 +299,3 @@ export default function App() {
     </div>
   );
 }
-```

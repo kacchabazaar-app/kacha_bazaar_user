@@ -1,4 +1,3 @@
-```react
 import React, { useState } from 'react';
 import { 
   User, 
@@ -17,21 +16,16 @@ import {
 } from 'lucide-react';
 
 export default function App() {
-  // Active Navigation Tab
-  const [activeTab, setActiveTab] = useState('order'); // 'home', 'category', 'cart', 'order', 'help'
+  const [activeTab, setActiveTab] = useState('order');
   const [cartCount] = useState(3);
-
-  // Initialize with EMPTY array by default (Strictly no demo orders unless populated by backend/user)
   const [orders, setOrders] = useState([]);
 
-  // Separate current active orders and past completed orders
   const currentOrders = orders.filter(o => o.status === 'In Progress' || o.status === 'Processing');
   const pastOrders = orders.filter(o => o.status.startsWith('Delivered') || o.status === 'Cancelled');
 
   return (
     <div className="max-w-md mx-auto min-h-screen bg-slate-100 text-slate-800 flex flex-col font-sans relative shadow-2xl pb-24 select-none">
       
-      {/* Top Header */}
       <header className="sticky top-0 bg-white/95 backdrop-blur-md z-30 px-4 py-3 border-b border-slate-100 flex items-center justify-between">
         <button className="w-9 h-9 rounded-full bg-amber-100 border border-amber-200 flex items-center justify-center overflow-hidden active:scale-95 transition-transform">
           <User className="w-5 h-5 text-amber-800" />
@@ -39,14 +33,12 @@ export default function App() {
         <h1 className="text-lg font-black text-slate-900 tracking-tight">
           My Orders
         </h1>
-        <div className="w-9 h-9" /> {/* Balancing placeholder */}
+        <div className="w-9 h-9" />
       </header>
 
-      {/* Main Content Area */}
       <main className="flex-1 px-4 py-4 space-y-5">
         
         {orders.length === 0 ? (
-          /* Empty Orders State */
           <div className="bg-white rounded-3xl p-8 border border-slate-200/80 shadow-xs text-center flex flex-col items-center justify-center my-6">
             <div className="w-20 h-20 bg-emerald-50 rounded-full flex items-center justify-center mb-4">
               <Package className="w-10 h-10 text-emerald-600" />
@@ -64,7 +56,6 @@ export default function App() {
           </div>
         ) : (
           <>
-            {/* Current Orders Section */}
             {currentOrders.length > 0 && (
               <section className="space-y-3">
                 <h2 className="text-sm font-black text-slate-900 tracking-wide">
@@ -75,7 +66,6 @@ export default function App() {
                     key={order.id} 
                     className="bg-white/90 backdrop-blur-sm border border-slate-200/90 rounded-3xl p-4 shadow-sm space-y-3"
                   >
-                    {/* Header line */}
                     <div className="flex items-center justify-between">
                       <span className="font-black text-slate-900 text-sm">
                         Order #{order.id}
@@ -86,7 +76,6 @@ export default function App() {
                       </span>
                     </div>
 
-                    {/* Address & Estimated Time */}
                     <div className="space-y-1 text-xs text-slate-600 bg-slate-50 p-2.5 rounded-2xl border border-slate-100">
                       <p className="flex items-center gap-1.5 truncate">
                         <MapPin className="w-3.5 h-3.5 text-emerald-700 shrink-0" />
@@ -98,7 +87,6 @@ export default function App() {
                       </p>
                     </div>
 
-                    {/* Item Thumbnails List */}
                     <div className="flex items-center gap-2 overflow-x-auto py-1 scrollbar-none">
                       {order.items.map((item, idx) => (
                         <div key={idx} className="w-14 h-14 rounded-2xl bg-slate-50 border border-slate-200/60 p-1 shrink-0 flex items-center justify-center">
@@ -107,7 +95,6 @@ export default function App() {
                       ))}
                     </div>
 
-                    {/* Amount & Actions */}
                     <div className="pt-2 border-t border-slate-100 flex items-center justify-between">
                       <div className="flex flex-col">
                         <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Total Amount</span>
@@ -128,7 +115,6 @@ export default function App() {
               </section>
             )}
 
-            {/* Past Orders Section */}
             {pastOrders.length > 0 && (
               <section className="space-y-3">
                 <h2 className="text-sm font-black text-slate-900 tracking-wide">
@@ -139,7 +125,6 @@ export default function App() {
                     key={order.id} 
                     className="bg-white/90 backdrop-blur-sm border border-slate-200/90 rounded-3xl p-4 shadow-sm space-y-3"
                   >
-                    {/* Header line */}
                     <div className="flex items-center justify-between">
                       <span className="font-black text-slate-900 text-sm">
                         Order #{order.id}
@@ -149,13 +134,11 @@ export default function App() {
                       </span>
                     </div>
 
-                    {/* Address & Date */}
                     <div className="space-y-0.5 text-xs text-slate-500">
                       <p className="truncate">Delivery to: {order.address}</p>
                       <p className="font-medium text-slate-700">{order.date}</p>
                     </div>
 
-                    {/* Thumbnails & Reorder Actions */}
                     <div className="flex items-center justify-between pt-1">
                       <div className="flex items-center gap-2 overflow-x-auto max-w-[60%] scrollbar-none">
                         {order.items.map((item, idx) => (
@@ -186,15 +169,12 @@ export default function App() {
 
       </main>
 
-      {/* Fixed Bottom Navigation Bar */}
       <nav className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white border-t border-slate-200 z-40 px-3 py-2 shadow-lg">
         <div className="flex items-center justify-around">
           
           <button 
             onClick={() => setActiveTab('home')}
-            className={`flex flex-col items-center gap-1 transition-colors ${
-              activeTab === 'home' ? 'text-emerald-700 font-bold' : 'text-slate-500'
-            }`}
+            className={`flex flex-col items-center gap-1 transition-colors ${activeTab === 'home' ? 'text-emerald-700 font-bold' : 'text-slate-500'}`}
           >
             <HomeIcon className="w-5 h-5" />
             <span className="text-[10px]">Home</span>
@@ -202,9 +182,7 @@ export default function App() {
 
           <button 
             onClick={() => setActiveTab('category')}
-            className={`flex flex-col items-center gap-1 transition-colors ${
-              activeTab === 'category' ? 'text-emerald-700 font-bold' : 'text-slate-500'
-            }`}
+            className={`flex flex-col items-center gap-1 transition-colors ${activeTab === 'category' ? 'text-emerald-700 font-bold' : 'text-slate-500'}`}
           >
             <Grid className="w-5 h-5" />
             <span className="text-[10px]">Category</span>
@@ -212,9 +190,7 @@ export default function App() {
 
           <button 
             onClick={() => setActiveTab('cart')}
-            className={`flex flex-col items-center gap-1 relative transition-colors ${
-              activeTab === 'cart' ? 'text-emerald-700 font-bold' : 'text-slate-500'
-            }`}
+            className={`flex flex-col items-center gap-1 relative transition-colors ${activeTab === 'cart' ? 'text-emerald-700 font-bold' : 'text-slate-500'}`}
           >
             <ShoppingCart className="w-5 h-5" />
             {cartCount > 0 && (
@@ -227,19 +203,15 @@ export default function App() {
 
           <button 
             onClick={() => setActiveTab('order')}
-            className={`flex flex-col items-center gap-1 transition-colors ${
-              activeTab === 'order' ? 'text-emerald-700 font-bold' : 'text-slate-500'
-            }`}
+            className={`flex flex-col items-center gap-1 transition-colors ${activeTab === 'order' ? 'text-emerald-700 font-bold' : 'text-slate-500'}`}
           >
-            <ClipboardList className="w-5 h-5 text-emerald-700" />
-            <span className="text-[10px] font-bold text-emerald-700">Order</span>
+            <ClipboardList className="w-5 h-5" />
+            <span className="text-[10px]">Order</span>
           </button>
 
           <button 
             onClick={() => setActiveTab('help')}
-            className={`flex flex-col items-center gap-1 transition-colors ${
-              activeTab === 'help' ? 'text-emerald-700 font-bold' : 'text-slate-500'
-            }`}
+            className={`flex flex-col items-center gap-1 transition-colors ${activeTab === 'help' ? 'text-emerald-700 font-bold' : 'text-slate-500'}`}
           >
             <HelpCircle className="w-5 h-5" />
             <span className="text-[10px]">Help</span>
@@ -251,4 +223,3 @@ export default function App() {
     </div>
   );
 }
-```

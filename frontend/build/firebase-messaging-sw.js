@@ -2,17 +2,6 @@
 importScripts('https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js');
 importScripts('https://www.gstatic.com/firebasejs/10.8.0/firebase-messaging-compat.js');
 
-// ধাপ ১ থেকে পাওয়া আপনার Firebase Config এখানে বসান
-const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-  authDomain: "savemoney-a2615.firebaseapp.com",
-  projectId: "savemoney-a2615",
-  storageBucket: "savemoney-a2615.firebasestorage.app",
-  messagingSenderId: "642246363002",
-  appId: "1:642246363002:web:8ae296cb0131a28c7ff8c3",
-  measurementId: "G-5TRFJZZG41"
-};
-
 
 // Firebase ইনিশিয়ালাইজ করা
 firebase.initializeApp(firebaseConfig);

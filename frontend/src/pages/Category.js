@@ -1,4 +1,3 @@
-```react
 import React, { useState } from 'react';
 import { 
   ArrowLeft, 
@@ -13,14 +12,12 @@ import {
 } from 'lucide-react';
 
 export default function App() {
-  // Navigation & View State
-  const [activeTab, setActiveTab] = useState('category'); // 'home', 'category', 'cart', 'order', 'help'
+  const [activeTab, setActiveTab] = useState('category');
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [cartCount, setCartCount] = useState(3);
+  const [cartCount] = useState(3);
 
-  // Category List Matching Design
   const categories = [
     { 
       id: 'veg_fruits', 
@@ -94,9 +91,6 @@ export default function App() {
     },
   ];
 
-  // Strictly empty product list
-  const products = [];
-
   const filteredCategories = categories.filter(c => 
     c.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -104,7 +98,6 @@ export default function App() {
   return (
     <div className="max-w-md mx-auto min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans relative shadow-2xl pb-20 select-none">
       
-      {/* Top Header */}
       <header className="sticky top-0 bg-white/95 backdrop-blur-md z-30 px-4 py-3.5 border-b border-slate-100 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <button 
@@ -132,7 +125,6 @@ export default function App() {
         </button>
       </header>
 
-      {/* Expandable Search Input */}
       {isSearchOpen && (
         <div className="bg-white px-4 py-2 border-b border-slate-100 transition-all">
           <div className="relative">
@@ -156,9 +148,7 @@ export default function App() {
         </div>
       )}
 
-      {/* Main Content Area */}
       {selectedCategory ? (
-        /* Selected Category View (Empty State) */
         <main className="flex-1 bg-white p-4 flex flex-col items-center justify-center min-h-[60vh] text-center">
           <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center text-slate-300 text-3xl mb-4">
             <ShoppingBag className="w-10 h-10 text-slate-300" />
@@ -175,10 +165,8 @@ export default function App() {
           </button>
         </main>
       ) : (
-        /* Main Category Grid View */
         <main className="flex-1 px-4 py-3 space-y-4">
           
-          {/* Top Promotional Banner */}
           <div className="w-full bg-gradient-to-r from-emerald-100 via-green-100 to-lime-100 border border-emerald-200/70 rounded-2xl p-3.5 flex items-center justify-between shadow-xs relative overflow-hidden">
             <div className="z-10">
               <span className="text-[10px] font-black uppercase text-emerald-800 tracking-wider bg-white/70 px-2 py-0.5 rounded-full">
@@ -192,7 +180,6 @@ export default function App() {
             <div className="absolute -right-4 -bottom-4 w-20 h-20 bg-emerald-200/40 rounded-full blur-sm"></div>
           </div>
 
-          {/* 2-Column Categories Grid */}
           <div className="grid grid-cols-2 gap-3">
             {filteredCategories.map((cat) => (
               <button
@@ -200,12 +187,10 @@ export default function App() {
                 onClick={() => setSelectedCategory(cat)}
                 className={`${cat.bg} border ${cat.border} rounded-2xl p-4 flex flex-col items-center justify-between text-center min-h-[140px] shadow-xs hover:shadow-md active:scale-95 transition-all group relative overflow-hidden`}
               >
-                {/* Visual Icon Header */}
                 <div className="text-4xl my-auto transform group-hover:scale-110 transition-transform duration-200">
                   {cat.icon}
                 </div>
 
-                {/* Title */}
                 <span className="font-extrabold text-xs text-slate-800 leading-tight w-full mt-2">
                   {cat.name}
                 </span>
@@ -222,15 +207,12 @@ export default function App() {
         </main>
       )}
 
-      {/* Bottom Navigation Bar */}
       <nav className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white border-t border-slate-200 z-40 px-3 py-2">
         <div className="flex items-center justify-around">
           
           <button 
             onClick={() => { setActiveTab('home'); setSelectedCategory(null); }}
-            className={`flex flex-col items-center gap-1 transition-colors ${
-              activeTab === 'home' ? 'text-emerald-700 font-bold' : 'text-slate-500'
-            }`}
+            className={`flex flex-col items-center gap-1 transition-colors ${activeTab === 'home' ? 'text-emerald-700 font-bold' : 'text-slate-500'}`}
           >
             <HomeIcon className="w-5 h-5" />
             <span className="text-[10px]">Home</span>
@@ -238,9 +220,7 @@ export default function App() {
 
           <button 
             onClick={() => { setActiveTab('category'); setSelectedCategory(null); }}
-            className={`flex flex-col items-center gap-1 transition-colors ${
-              activeTab === 'category' ? 'text-emerald-700 font-bold' : 'text-slate-500'
-            }`}
+            className={`flex flex-col items-center gap-1 transition-colors ${activeTab === 'category' ? 'text-emerald-700 font-bold' : 'text-slate-500'}`}
           >
             <Grid className="w-5 h-5" />
             <span className="text-[10px]">Category</span>
@@ -248,9 +228,7 @@ export default function App() {
 
           <button 
             onClick={() => setActiveTab('cart')}
-            className={`flex flex-col items-center gap-1 relative transition-colors ${
-              activeTab === 'cart' ? 'text-emerald-700 font-bold' : 'text-slate-500'
-            }`}
+            className={`flex flex-col items-center gap-1 relative transition-colors ${activeTab === 'cart' ? 'text-emerald-700 font-bold' : 'text-slate-500'}`}
           >
             <ShoppingCart className="w-5 h-5" />
             {cartCount > 0 && (
@@ -263,9 +241,7 @@ export default function App() {
 
           <button 
             onClick={() => setActiveTab('order')}
-            className={`flex flex-col items-center gap-1 transition-colors ${
-              activeTab === 'order' ? 'text-emerald-700 font-bold' : 'text-slate-500'
-            }`}
+            className={`flex flex-col items-center gap-1 transition-colors ${activeTab === 'order' ? 'text-emerald-700 font-bold' : 'text-slate-500'}`}
           >
             <ClipboardList className="w-5 h-5" />
             <span className="text-[10px]">Order</span>
@@ -273,9 +249,7 @@ export default function App() {
 
           <button 
             onClick={() => setActiveTab('help')}
-            className={`flex flex-col items-center gap-1 transition-colors ${
-              activeTab === 'help' ? 'text-emerald-700 font-bold' : 'text-slate-500'
-            }`}
+            className={`flex flex-col items-center gap-1 transition-colors ${activeTab === 'help' ? 'text-emerald-700 font-bold' : 'text-slate-500'}`}
           >
             <HelpCircle className="w-5 h-5" />
             <span className="text-[10px]">Help</span>
@@ -287,4 +261,3 @@ export default function App() {
     </div>
   );
 }
-```

@@ -1,4 +1,3 @@
-```react
 import React, { useState, useEffect } from 'react';
 import { 
   Search, 
@@ -18,21 +17,17 @@ import {
 } from 'lucide-react';
 
 export default function App() {
-  // Navigation State
-  const [activeTab, setActiveTab] = useState('home'); // 'home', 'category', 'cart', 'order', 'help'
+  const [activeTab, setActiveTab] = useState('home');
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [viewAllSection, setViewAllSection] = useState(null);
   
-  // Geolocation State
   const [locationName, setLocationName] = useState('Detecting location...');
   const [isLocating, setIsLocating] = useState(false);
 
-  // Cart & Profile Modal State
   const [cartCount, setCartCount] = useState(0);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 
-  // Category List
   const categories = [
     { id: 'veggies', name: 'Vegetables', icon: '🥦', bg: 'bg-green-100' },
     { id: 'fruits', name: 'Fruits', icon: '🍎', bg: 'bg-orange-100' },
@@ -44,10 +39,8 @@ export default function App() {
     { id: 'personal', name: 'Personal Care', icon: '🧴', bg: 'bg-cyan-100' },
   ];
 
-  // Strictly empty product list (No demo products loaded)
   const products = [];
 
-  // Detect Geolocation on Load
   useEffect(() => {
     handleDetectLocation();
   }, []);
@@ -57,7 +50,6 @@ export default function App() {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          // Simulated Reverse Geocoding
           setIsLocating(false);
           setLocationName('Current Location Detected');
         },
@@ -79,10 +71,8 @@ export default function App() {
   return (
     <div className="max-w-md mx-auto min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans relative shadow-2xl pb-20 select-none">
       
-      {/* Dynamic Header */}
       <header className="sticky top-0 bg-white/95 backdrop-blur-md z-30 px-4 pt-3 pb-2 border-b border-slate-100">
         <div className="flex items-center justify-between">
-          {/* Top Left: User Profile Avatar & Brand */}
           <div className="flex items-center gap-2.5">
             <button 
               onClick={() => setIsProfileOpen(true)} 
@@ -97,7 +87,6 @@ export default function App() {
                 <span className="text-xl font-black tracking-tight leading-none text-amber-600">Bazaar</span>
               </div>
               
-              {/* Dynamic Geolocation Tag */}
               <button 
                 onClick={handleDetectLocation}
                 className="flex items-center gap-1 text-xs text-slate-500 font-medium mt-1 hover:text-emerald-700 transition-colors"
@@ -111,7 +100,6 @@ export default function App() {
             </div>
           </div>
 
-          {/* Top Right: Login/Register Button */}
           <button 
             onClick={() => setIsLoginOpen(true)}
             className="px-4 py-1.5 rounded-full border border-slate-300 text-xs font-bold text-slate-700 hover:bg-slate-100 active:scale-95 transition-all shadow-xs"
@@ -120,7 +108,6 @@ export default function App() {
           </button>
         </div>
 
-        {/* Search Bar */}
         <div className="mt-3 relative">
           <input 
             type="text" 
@@ -133,9 +120,7 @@ export default function App() {
         </div>
       </header>
 
-      {/* Main Content View Switcher */}
       {selectedCategory || viewAllSection ? (
-        /* Category or View All Detail View (Empty State when no products) */
         <main className="flex-1 bg-white p-4 flex flex-col items-center justify-center min-h-[60vh] text-center">
           <div className="w-full flex items-center justify-between mb-6 pb-2 border-b border-slate-100">
             <button 
@@ -183,13 +168,10 @@ export default function App() {
           )}
         </main>
       ) : (
-        /* Home Main View */
         <main className="flex-1 px-4 py-3 space-y-5">
 
-          {/* Promo Banners Horizontal Slider */}
           <section className="space-y-2">
             <div className="flex gap-3 overflow-x-auto no-scrollbar scroll-smooth pb-1">
-              {/* Card 1 */}
               <div className="shrink-0 w-64 bg-gradient-to-r from-emerald-100 to-green-50 p-3.5 rounded-2xl border border-emerald-200/60 relative overflow-hidden flex flex-col justify-between">
                 <div>
                   <span className="text-[10px] font-black uppercase tracking-wider text-emerald-800 bg-emerald-200/60 px-2 py-0.5 rounded-full">Offer</span>
@@ -202,7 +184,6 @@ export default function App() {
                 <span className="absolute right-2 bottom-1 text-4xl opacity-80">🍅</span>
               </div>
 
-              {/* Card 2 */}
               <div className="shrink-0 w-64 bg-gradient-to-r from-sky-100 to-blue-50 p-3.5 rounded-2xl border border-sky-200/60 relative overflow-hidden flex flex-col justify-between">
                 <div>
                   <span className="text-[10px] font-black uppercase tracking-wider text-sky-800 bg-sky-200/60 px-2 py-0.5 rounded-full">Flash Sale</span>
@@ -215,7 +196,6 @@ export default function App() {
                 <span className="absolute right-2 bottom-1 text-4xl opacity-80">🥦</span>
               </div>
 
-              {/* Card 3 */}
               <div className="shrink-0 w-64 bg-gradient-to-r from-lime-100 to-emerald-50 p-3.5 rounded-2xl border border-lime-200/60 relative overflow-hidden flex flex-col justify-between">
                 <div>
                   <span className="text-[10px] font-black uppercase tracking-wider text-lime-800 bg-lime-200/60 px-2 py-0.5 rounded-full">Weekend</span>
@@ -229,7 +209,6 @@ export default function App() {
               </div>
             </div>
 
-            {/* Pagination Dots */}
             <div className="flex justify-center items-center gap-1.5 pt-1">
               <div className="w-5 h-1.5 bg-emerald-600 rounded-full"></div>
               <div className="w-1.5 h-1.5 bg-slate-300 rounded-full"></div>
@@ -238,7 +217,6 @@ export default function App() {
             </div>
           </section>
 
-          {/* Shop by Categories Section */}
           <section className="pt-2">
             <h2 className="text-base font-bold text-slate-900 mb-3">Shop by Categories</h2>
             <div className="grid grid-cols-4 gap-3">
@@ -259,7 +237,6 @@ export default function App() {
             </div>
           </section>
 
-          {/* Reusable Product Section Block */}
           {[
             { id: 'fresh_today', title: 'Fresh Today' },
             { id: 'featured', title: 'Featured Products' },
@@ -315,7 +292,6 @@ export default function App() {
             );
           })}
 
-          {/* All Products Section */}
           <section className="pt-2">
             <div className="flex items-center justify-between mb-3">
               <h2 className="text-base font-bold text-slate-900">All Products</h2>
@@ -357,7 +333,6 @@ export default function App() {
         </main>
       )}
 
-      {/* Bottom Navigation Bar */}
       <nav className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white border-t border-slate-200 z-40 px-3 py-2">
         <div className="flex items-center justify-around">
           
@@ -419,7 +394,6 @@ export default function App() {
         </div>
       </nav>
 
-      {/* User Profile Modal */}
       {isProfileOpen && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl w-full max-w-sm p-5 space-y-4 shadow-xl">
@@ -445,9 +419,7 @@ export default function App() {
           </div>
         </div>
       )}
-
-      {/* Login Modal */}
-      {isLoginOpen && (
+   {isLoginOpen && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl w-full max-w-sm p-5 space-y-4 shadow-xl">
             <div className="flex justify-between items-center border-b pb-3">
@@ -468,9 +440,8 @@ export default function App() {
             </div>
           </div>
         </div>
-      )}
+       )}
 
     </div>
   );
 }
-```

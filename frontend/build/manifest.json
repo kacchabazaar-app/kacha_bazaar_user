@@ -1,8 +1,8 @@
 {
-  "id": "https://kacha-bazaary-indol.vercel.app/",
-  "short_name": "Save Money",
-  "name": "Save Money - Save & Earn",
-  "description": "Save Money investment and earning platform",
+  "id": "https://kacha-bazaar-indol.vercel.app/",
+  "short_name": "Kacha Bazaar",
+  "name": "Kacha Bazaar - groceries order",
+  "description": "Kacha Bazaar is a groceries delivery Platform",
   "start_url": "/",
   "display": "standalone",
   "theme_color": "#020617",
@@ -34,14 +34,14 @@
       "sizes": "512x512",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "Save Money App Preview"
+      "label": "Kacha Bazaar App Preview"
     },
     {
       "src": "/logo512.png",
       "sizes": "512x512",
       "type": "image/png",
       "form_factor": "wide",
-      "label": "Save Money Desktop Preview"
+      "label": "Kacha Bazaar Desktop Preview"
     }
   ],
   "categories": ["finance", "productivity"]

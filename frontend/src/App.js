@@ -13,11 +13,10 @@ import { Toaster } from "react-hot-toast";
 import Home from "./pages/Home";
 import Category from "./pages/Category";
 import Cart from "./pages/Cart";
-import Orders from "./pages/Orders";
+import Order from "./pages/Order";
 import Help from "./pages/Help";
 import Account from "./pages/Account";
 import Login from "./pages/Login";
-import Register from "./pages/Register";
 
 // 🟢 ব্যাক বাটন হ্যান্ডলার (Capacitor Native App Exit / Back Movement)
 function BackButtonHandler() {
@@ -230,12 +229,11 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/category" element={<Category />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/orders" element={<Orders />} />
+          <Route path="/orders" element={<Order />} />
           <Route path="/help" element={<Help />} />
           <Route path="/account" element={<Account />} />
 
           <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
 
           {/* অন্য কোনো ভুল ইউআরএল দিলে হোম পেজে নিয়ে যাবে */}
           <Route path="*" element={<Home />} />
