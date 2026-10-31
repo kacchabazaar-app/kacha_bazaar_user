@@ -11,9 +11,7 @@ import {
   HelpCircle, 
   ShoppingCart, 
   ArrowLeft,
-  RefreshCw,
-  Plus,
-  Check
+  RefreshCw
 } from 'lucide-react';
 
 export default function App() {
@@ -419,7 +417,8 @@ export default function App() {
           </div>
         </div>
       )}
-   {isLoginOpen && (
+
+      {isLoginOpen && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl w-full max-w-sm p-5 space-y-4 shadow-xl">
             <div className="flex justify-between items-center border-b pb-3">
@@ -440,7 +439,7 @@ export default function App() {
             </div>
           </div>
         </div>
-       )}
+      )}
 
     </div>
   );
