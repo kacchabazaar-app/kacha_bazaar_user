@@ -9,6 +9,12 @@ const http = require("http");
 const { Server } = require("socket.io");
 const User = require("./models/User"); 
 const Notification = require("./models/Notification");
+
+// নতুন মডেলগুলো যুক্ত করা হয়েছে
+const Banner = require('./models/Banner');
+const Category = require('./models/Category');
+const Product = require('./models/Product');
+
 const multer = require("multer");
 const path = require("path");
 const bcrypt = require("bcryptjs");
@@ -18,14 +24,10 @@ const { CloudinaryStorage } = require("multer-storage-cloudinary");
 const helmet = require("helmet");
 const validator = require("validator");
 const sanitize = require("mongo-sanitize");
-const Razorpay = require("razorpay");
 const crypto = require("crypto");
 const OtpModel = require("./models/Otp");
 
-const razorpayInstance = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID,
-  key_secret: process.env.RAZORPAY_KEY_SECRET,
-});
+
 
 // === Firebase Admin SDK Import (Push Notifications) ===
 const admin = require('firebase-admin');
@@ -107,10 +109,10 @@ const auth = async (req, res, next) => {
   } catch (err) {
     return res.status(401).json({ msg: "Token expired or invalid" });
   }
-});
+};
 
 // ================= DATABASE CONNECTION =================
-mongoose.connect(process.env.MONGO_URL)
+mongoose.connect(process.env.MONGO_URL || process.env.MONGO_URI)
   .then(() => console.log("MongoDB Atlas Connected for Kacha Bazaar"))
   .catch((err) => console.log("MongoDB Error:", err.message));
 
@@ -192,6 +194,74 @@ app.post("/login", async (req, res) => {
     return res.status(500).json({ msg: "Server error" });
   }
 });
+
+// ================= 🟢 USER APPS DYNAMIC HOME API ================= //
+app.get('/api/home/all-data', async (req, res) => {
+  try {
+    const banners = await Banner.find({ isActive: true }).sort({ order: 1 });
+    const categories = await Category.find().sort({ order: 1 });
+    
+    const freshToday = await Product.find({ section: 'freshToday' });
+    const featuredProducts = await Product.find({ section: 'featured' });
+    const bestSellers = await Product.find({ section: 'bestSeller' });
+    const seasonalSpecials = await Product.find({ section: 'seasonal' });
+    const allProducts = await Product.find();
+
+    res.status(200).json({
+      success: true,
+      data: {
+        banners,
+        categories,
+        sections: {
+          freshToday,
+          featuredProducts,
+          bestSellers,
+          seasonalSpecials,
+          allProducts
+        }
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+
+// ================= 🔴 ADMIN APIs (ডেটা এড করার জন্য) ================= //
+
+// নতুন ব্যানার যোগ করা
+app.post('/api/admin/banners', async (req, res) => {
+  try {
+    const newBanner = new Banner(req.body);
+    await newBanner.save();
+    res.status(201).json({ success: true, message: 'Banner added successfully', data: newBanner });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// নতুন ক্যাটাগরি যোগ করা
+app.post('/api/admin/categories', async (req, res) => {
+  try {
+    const newCat = new Category(req.body);
+    await newCat.save();
+    res.status(201).json({ success: true, message: 'Category added successfully', data: newCat });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// নতুন প্রোডাক্ট আপলোড করা (সেকশন সহ)
+app.post('/api/admin/products', async (req, res) => {
+  try {
+    const newProduct = new Product(req.body);
+    await newProduct.save();
+    res.status(201).json({ success: true, message: 'Product added successfully', data: newProduct });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
 
 // ================= PUSH NOTIFICATIONS & FCM =================
 app.post('/api/save-fcm-token', async (req, res) => {
