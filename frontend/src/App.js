@@ -9,22 +9,17 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Toaster } from "react-hot-toast";
 
-// 🟢 কাচ্চা বাজার (Kacha Bazaar) পেজ ইম্পোর্টসমূহ
+// 🟢 Kacha Bazaar-এর পেজসমূহ
 import Home from "./pages/Home";
 import Category from "./pages/Category";
 import Cart from "./pages/Cart";
 import Orders from "./pages/Orders";
 import Help from "./pages/Help";
-import Profile from "./pages/Profile";
-
+import Account from "./pages/Account";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import ForgotPassword from "./pages/ForgotPassword";
-import Notifications from "./pages/Notifications";
 
-import ProtectedRoute from "./components/ProtectedRoute";
-
-// 🟢 মোবাইল ব্যাক বাটন হ্যান্ডলার
+// 🟢 ব্যাক বাটন হ্যান্ডলার (Capacitor Native App Exit / Back Movement)
 function BackButtonHandler() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -58,15 +53,101 @@ function BackButtonHandler() {
   return null;
 }
 
+// 🟢 ফিক্সড বটম নেভিগেশন বার (সব পেজে ফিক্সড থাকবে)
+function GlobalBottomNav() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // যেসব পেজে বটম নেভিগেশন বার দেখাবে না
+  const hideNavPaths = ["/login", "/register"];
+  const shouldShowNav = !hideNavPaths.includes(location.pathname);
+
+  if (!shouldShowNav) return null;
+
+  const isActive = (path) => {
+    if (path === "/" && (location.pathname === "/" || location.pathname === "/home")) return true;
+    return location.pathname === path;
+  };
+
+  return (
+    <nav className="fixed bottom-0 left-0 right-0 h-16 bg-white border-t border-gray-100 flex justify-around items-center z-50 px-2 shadow-lg">
+      {/* Home */}
+      <button
+        onClick={() => navigate("/")}
+        className={`flex flex-col items-center justify-center w-full py-1 ${
+          isActive("/") ? "text-emerald-700 font-semibold" : "text-gray-400 hover:text-gray-600"
+        }`}
+      >
+        <svg className="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={isActive("/") ? 2.5 : 1.8} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        </svg>
+        <span className="text-[11px]">Home</span>
+      </button>
+
+      {/* Category */}
+      <button
+        onClick={() => navigate("/category")}
+        className={`flex flex-col items-center justify-center w-full py-1 ${
+          isActive("/category") ? "text-emerald-700 font-semibold" : "text-gray-400 hover:text-gray-600"
+        }`}
+      >
+        <svg className="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={isActive("/category") ? 2.5 : 1.8} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+        </svg>
+        <span className="text-[11px]">Category</span>
+      </button>
+
+      {/* Cart */}
+      <button
+        onClick={() => navigate("/cart")}
+        className={`flex flex-col items-center justify-center w-full py-1 relative ${
+          isActive("/cart") ? "text-emerald-700 font-semibold" : "text-gray-400 hover:text-gray-600"
+        }`}
+      >
+        <div className="relative">
+          <svg className="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={isActive("/cart") ? 2.5 : 1.8} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" />
+          </svg>
+          <span className="absolute -top-1 -right-2 bg-emerald-600 text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center">
+            0
+          </span>
+        </div>
+        <span className="text-[11px]">Cart</span>
+      </button>
+
+      {/* Order */}
+      <button
+        onClick={() => navigate("/orders")}
+        className={`flex flex-col items-center justify-center w-full py-1 ${
+          isActive("/orders") ? "text-emerald-700 font-semibold" : "text-gray-400 hover:text-gray-600"
+        }`}
+      >
+        <svg className="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={isActive("/orders") ? 2.5 : 1.8} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+        </svg>
+        <span className="text-[11px]">Order</span>
+      </button>
+
+      {/* Help */}
+      <button
+        onClick={() => navigate("/help")}
+        className={`flex flex-col items-center justify-center w-full py-1 ${
+          isActive("/help") ? "text-emerald-700 font-semibold" : "text-gray-400 hover:text-gray-600"
+        }`}
+      >
+        <svg className="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={isActive("/help") ? 2.5 : 1.8} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span className="text-[11px]">Help</span>
+      </button>
+    </nav>
+  );
+}
+
 function App() {
   const [popup, setPopup] = useState(null);
 
-  const [updateModal, setUpdateModal] = useState({
-    show: false,
-    downloadUrl: ""
-  });
-
-  // 🔔 পুশ নোটিফিকেশন সেটআপ
+  // 🔔 পুশ নোটিফিকেশন ইন্টিগ্রেশন
   useEffect(() => {
     const initPushNotifications = async () => {
       try {
@@ -108,29 +189,7 @@ function App() {
     };
   }, []);
 
-  // 🚀 অ্যাপ আপডেট চেকার
-  useEffect(() => {
-    const checkAppUpdate = async () => {
-      try {
-        const res = await fetch(`https://kacha-bazaary-indol.vercel.app/update.json?t=${Date.now()}`);
-        const data = await res.json();
-        const currentVersionCode = 1;
-
-        if (data && data.versionCode > currentVersionCode) {
-          setUpdateModal({
-            show: true,
-            downloadUrl: data.downloadUrl
-          });
-        }
-      } catch (err) {
-        console.error("Update check failed:", err);
-      }
-    };
-
-    checkAppUpdate();
-  }, []);
-
-  // 🔌 সকেট নোটিফিকেশন লিসেনার
+  // 🟢 সকেট নোটিফিকেশন লিসেনার
   useEffect(() => {
     const email = localStorage.getItem("email");
 
@@ -155,195 +214,39 @@ function App() {
     <BrowserRouter>
       <BackButtonHandler />
 
-      <div style={{ width: "100%", maxWidth: "100vw", overflowX: "hidden", minHeight: "100vh", background: "#f8fafc", boxSizing: "border-box" }}>
+      <div className="w-full max-w-md mx-auto min-h-screen bg-gray-50 pb-20 relative">
 
-        {/* 🚀 অ্যাপ আপডেট মোডাল */}
-        {updateModal.show && (
-          <div style={{
-            position: "fixed",
-            inset: 0,
-            background: "rgba(0,0,0,0.8)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            zIndex: 99999,
-            padding: "20px"
-          }}>
-            <div style={{
-              background: "#ffffff",
-              borderRadius: "24px",
-              padding: "24px",
-              maxWidth: "360px",
-              width: "100%",
-              textAlign: "center",
-              color: "#0f172a",
-              boxShadow: "0 20px 50px rgba(0,0,0,0.2)"
-            }}>
-              <div style={{ fontSize: "48px", marginBottom: "10px" }}>🥬</div>
-              <h3 style={{ margin: "0 0 8px 0", fontSize: "20px", fontWeight: "bold" }}>Kacha Bazaar Update!</h3>
-              <p style={{ fontSize: "14px", color: "#64748b", lineHeight: "20px", marginBottom: "20px" }}>
-                A new version of Kacha Bazaar app is available with faster delivery and improvements.
-              </p>
-              
-              <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                <button
-                  onClick={() => window.open(updateModal.downloadUrl, "_system")}
-                  style={{
-                    width: "100%",
-                    padding: "14px",
-                    borderRadius: "14px",
-                    border: "none",
-                    background: "#166534",
-                    color: "#fff",
-                    fontWeight: "bold",
-                    fontSize: "16px",
-                    cursor: "pointer"
-                  }}
-                >
-                  Update Now
-                </button>
-
-                <button
-                  onClick={() => setUpdateModal((prev) => ({ ...prev, show: false }))}
-                  style={{
-                    width: "100%",
-                    padding: "12px",
-                    borderRadius: "14px",
-                    border: "1px solid #cbd5e1",
-                    background: "transparent",
-                    color: "#64748b",
-                    fontWeight: "500",
-                    fontSize: "14px",
-                    cursor: "pointer"
-                  }}
-                >
-                  Skip for Now
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* 🔔 নোটিফিকেশন পপআপ */}
+        {/* সকেট নোটিফিকেশন পপআপ */}
         {popup && (
-          <div style={{
-            position: "fixed",
-            top: "20px",
-            right: "20px",
-            background: "#166534",
-            color: "white",
-            padding: "15px",
-            borderRadius: "10px",
-            zIndex: 9999,
-            boxShadow: "0 4px 12px rgba(0,0,0,0.15)"
-          }}>
-            <h4 style={{ margin: 0, fontSize: "15px" }}>{popup.title}</h4>
-            <p style={{ margin: "4px 0 0 0", fontSize: "13px" }}>{popup.message}</p>
+          <div className="fixed top-5 right-5 bg-emerald-600 text-white p-4 rounded-xl shadow-lg z-[9999]">
+            <h4 className="font-bold text-sm">{popup.title}</h4>
+            <p className="text-xs mt-1">{popup.message}</p>
           </div>
         )}
 
-        {/* 🚦 অ্যাপের মূল রাউটস */}
+        {/* প্রজেক্ট রাউটিং */}
         <Routes>
-          {/* হোম পেজ */}
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute>
-                <Home />
-              </ProtectedRoute>
-            }
-          />
+          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/category" element={<Category />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/orders" element={<Orders />} />
+          <Route path="/help" element={<Help />} />
+          <Route path="/account" element={<Account />} />
 
-          <Route
-            path="/home"
-            element={
-              <ProtectedRoute>
-                <Home />
-              </ProtectedRoute>
-            }
-          />
-
-          {/* ক্যাটাগরি পেজ */}
-          <Route
-            path="/category"
-            element={
-              <ProtectedRoute>
-                <Category />
-              </ProtectedRoute>
-            }
-          />
-
-          {/* কার্ট পেজ */}
-          <Route
-            path="/cart"
-            element={
-              <ProtectedRoute>
-                <Cart />
-              </ProtectedRoute>
-            }
-          />
-
-          {/* অর্ডার পেজ */}
-          <Route
-            path="/orders"
-            element={
-              <ProtectedRoute>
-                <Orders />
-              </ProtectedRoute>
-            }
-          />
-
-          {/* হেল্প ও সাপোর্ট পেজ */}
-          <Route
-            path="/help"
-            element={
-              <ProtectedRoute>
-                <Help />
-              </ProtectedRoute>
-            }
-          />
-
-          {/* প্রোফাইল / অ্যাকাউন্ট পেজ */}
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute>
-                <Profile />
-              </ProtectedRoute>
-            }
-          />
-
-          {/* নোটিফিকেশন পেজ */}
-          <Route
-            path="/notifications"
-            element={
-              <ProtectedRoute>
-                <Notifications />
-              </ProtectedRoute>
-            }
-          />
-
-          {/* অথেনটিকেশন পেজ */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
 
-          {/* ডিফল্ট ফলব্যাক রাউট */}
-          <Route path="*" element={<Login />} />
+          {/* অন্য কোনো ভুল ইউআরএল দিলে হোম পেজে নিয়ে যাবে */}
+          <Route path="*" element={<Home />} />
         </Routes>
 
-        <ToastContainer
-          position="top-center"
-          autoClose={2500}
-          theme="light"
-        />
-
-        <Toaster
-          position="top-center"
-          reverseOrder={false}
-        />
-
+        <ToastContainer position="top-center" autoClose={2500} theme="light" />
+        <Toaster position="top-center" reverseOrder={false} />
       </div>
+
+      {/* গ্লোবাল ফিক্সড নেভিগেশন বার */}
+      <GlobalBottomNav />
     </BrowserRouter>
   );
 }
